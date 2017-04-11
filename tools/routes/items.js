@@ -34,7 +34,7 @@ export default function (app) {
     .post(function(req, res){
       let item = req.body;
       console.log(req.body);
-      items.push({id:"blissi",name:"blisS"});
+      items.push(item);
 
     });
 
