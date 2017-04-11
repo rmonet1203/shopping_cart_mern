@@ -4,6 +4,10 @@ import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
 
+//rutas para el api
+import routes from './routes/items';
+import parser from 'body-parser';
+
 /* eslint-disable no-console */
 
 const port = 3000;
@@ -17,7 +21,11 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
+  res.sendFile(path.join( __dirname, '../src/index.html'));
+});
+
+app.get('/list', function(req, res) {
   res.sendFile(path.join( __dirname, '../src/index.html'));
 });
 
@@ -28,3 +36,9 @@ app.listen(port, function(err) {
     open(`http://localhost:${port}`);
   }
 });
+
+// para manjear los post
+app.use(parser.json());
+app.use(parser.urlencoded({extended: false}));
+
+routes(app);
